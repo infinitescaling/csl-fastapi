@@ -1,8 +1,20 @@
 from fastapi import FastAPI
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 import requests
 from .helpers.get_twitch_auth import get_twitch_auth
-app = FastAPI()
 
+middleware = [
+    Middleware(
+        CORSMiddleware,
+        allow_origins=['*'],
+        allow_credentials=True,
+        allow_methods=['*'],
+        allow_headers=['*']
+    )
+]
+
+app = FastAPI(middleware=middleware)
 
 @app.get("/")
 async def root():
@@ -20,6 +32,7 @@ async def check_live(username: str):
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Client-Id": client_id,
+        "Access-Control-Allow-Origin": "*",
     }
     print(f"headers: {headers}")
     response = requests.get(url, headers=headers)
