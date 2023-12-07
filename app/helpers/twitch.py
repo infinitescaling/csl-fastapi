@@ -9,6 +9,8 @@ def get_twitch_auth():
     client_id = creds["client_id"]
     client_secret = creds["client_secret"]
     
+    # print(f"client_id: {client_id}")
+    # print(f"client_secret: {client_secret}")
     url = "https://id.twitch.tv/oauth2/token"
     payload = {
         "client_id": client_id,
@@ -38,12 +40,16 @@ def get_twitch_info(username: str):
     }
     response = requests.get(url, headers=headers)
     response_json = response.json()
-    print(response.status_code)
+    # print(response.status_code)
     if response.status_code != 200  or not response_json["data"]:
         return False
     print(f"response_json: {response_json}")
     # if response_json["data"]:
     live_status = response_json["data"][0]["type"]
     if live_status == "live":
-        return True
-    return "False"
+        return {
+            "url": f"twitch.tv/{username}"
+        }
+    return {
+            "twitch_live": False
+        }

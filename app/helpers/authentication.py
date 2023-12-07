@@ -2,11 +2,10 @@ import os
 
 def load_creds(cred_type: str):
 
-    try:
-        client_id = os.getenv('twitch_client_id')
-        client_secret = os.getenv('twitch_client_secret')
+    client_id = os.getenv('twitch_client_id')
+    client_secret = os.getenv('twitch_client_secret')
     
-    except:
+    if not client_id:
         with open(f"etc/{cred_type}/client_id/value") as f:
             client_id = f.read()
 
