@@ -9,7 +9,7 @@ router = APIRouter()
 async def check_live(username: str):
     twitch_info = get_twitch_info(username)
     # youtube_info = get_youtube_info(username)
-    kick_info = get_kick_info(username)
+    # kick_info = get_kick_info(username)
     if twitch_info:
         return {
             "platform": "twitch",
